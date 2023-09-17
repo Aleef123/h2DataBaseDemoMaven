@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS STUDENT (
+    ID varchar(20) NOT NULL PRIMARY KEY,
+    NAME1 varchar(20) NOT NULL,
+    AGE decimal(6,0) DEFAULT NULL,
+    EMAIL varchar(20) NOT NULL
+    );
