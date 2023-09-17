@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,5 +23,10 @@ public class StudentController {
     public ResponseEntity<String> studentDataInsert(@RequestBody Student student){
         studentService.studentDataUpdateService(student);
         return new ResponseEntity<>("successfully inserted", HttpStatus.OK);
+    }
+    @GetMapping("/studentDetails")
+    public ResponseEntity<Student> getStudentDataById(@RequestParam(name = "id") String id){
+        Student student=studentService.returnDatabyId(id);
+        return new ResponseEntity<>(student,HttpStatus.OK);
     }
 }
