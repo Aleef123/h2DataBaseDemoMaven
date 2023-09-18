@@ -29,4 +29,9 @@ public class StudentController {
         Student student=studentService.returnDatabyId(id);
         return new ResponseEntity<>(student,HttpStatus.OK);
     }
+    @DeleteMapping("/deleteData")
+    public ResponseEntity<String> deleteData(@RequestParam(name="id") String id){
+        studentService.studentDataDelete(id);
+        return new ResponseEntity<>("Successfully deleted data",HttpStatus.OK);
+    }
 }
