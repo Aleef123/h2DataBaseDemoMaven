@@ -7,6 +7,8 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+
 @Repository
 public class InsertStudentDao {
     public static final String INSERT_STUDENT="INSERT INTO STUDENT(ID, NAME1, AGE,EMAIL)\n" +
@@ -14,11 +16,16 @@ public class InsertStudentDao {
     @Autowired
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     public void insertStudentTable(Student student){
-        MapSqlParameterSource inputParam=new MapSqlParameterSource();
-        inputParam.addValue("id",student.getId());
-        inputParam.addValue("name1",student.getName());
-        inputParam.addValue("age",student.getAge());
-        inputParam.addValue("email",student.getEmail());
-        namedParameterJdbcTemplate.update(INSERT_STUDENT,inputParam);
+        try{
+            MapSqlParameterSource inputParam=new MapSqlParameterSource();
+            inputParam.addValue("id",student.getId());
+            inputParam.addValue("name1",student.getName());
+            inputParam.addValue("age",student.getAge());
+            inputParam.addValue("email",student.getEmail());
+            namedParameterJdbcTemplate.update(INSERT_STUDENT,inputParam);
+        }catch(Exception e){
+            throw new RuntimeException();
+        }
+
     }
 }

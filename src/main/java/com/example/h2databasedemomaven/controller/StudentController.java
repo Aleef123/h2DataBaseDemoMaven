@@ -1,6 +1,7 @@
 package com.example.h2databasedemomaven.controller;
 
 import com.example.h2databasedemomaven.domain.Student;
+import com.example.h2databasedemomaven.exception.CustomException;
 import com.example.h2databasedemomaven.service.StudentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,17 +22,33 @@ public class StudentController {
 
     @PostMapping("/datainsert")
     public ResponseEntity<String> studentDataInsert(@RequestBody Student student){
-        studentService.studentDataUpdateService(student);
-        return new ResponseEntity<>("successfully inserted", HttpStatus.OK);
+        try{
+            studentService.studentDataUpdateService(student);
+            return new ResponseEntity<>("successfully inserted", HttpStatus.OK);
+        }catch (CustomException e){
+            log.info("error in getting response");
+            return new ResponseEntity<>("error in getting data",HttpStatus.BAD_GATEWAY);
+        }
     }
     @GetMapping("/studentDetails")
     public ResponseEntity<Student> getStudentDataById(@RequestParam(name = "id") String id){
-        Student student=studentService.returnDatabyId(id);
-        return new ResponseEntity<>(student,HttpStatus.OK);
+        try{
+            Student student=studentService.returnDatabyId(id);
+            return new ResponseEntity<>(student,HttpStatus.OK);
+        }catch (CustomException e){
+            log.info("error in getting response");
+            return new ResponseEntity<>(null,null,HttpStatus.BAD_REQUEST);
+        }
+
     }
     @DeleteMapping("/deleteData")
     public ResponseEntity<String> deleteData(@RequestParam(name="id") String id){
-        studentService.studentDataDelete(id);
-        return new ResponseEntity<>("Successfully deleted data",HttpStatus.OK);
+        try{
+            studentService.studentDataDelete(id);
+            return new ResponseEntity<>("Successfully deleted data",HttpStatus.OK);
+        }catch(CustomException e){
+            return new ResponseEntity<>(null,null,HttpStatus.BAD_REQUEST);
+        }
+
     }
 }

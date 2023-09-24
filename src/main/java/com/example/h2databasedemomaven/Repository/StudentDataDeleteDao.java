@@ -13,8 +13,13 @@ public class StudentDataDeleteDao {
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     public void deleteData(String id){
-        MapSqlParameterSource inputparam = new MapSqlParameterSource();
-        inputparam.addValue("id",id);
-        namedParameterJdbcTemplate.update(STUDENT_DATA_DELETE,inputparam);
+        try{
+            MapSqlParameterSource inputparam = new MapSqlParameterSource();
+            inputparam.addValue("id",id);
+            namedParameterJdbcTemplate.update(STUDENT_DATA_DELETE,inputparam);
+        }catch (Exception e){
+            throw new RuntimeException();
+        }
+
     }
 }
